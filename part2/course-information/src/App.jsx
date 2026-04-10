@@ -17,10 +17,8 @@ const Part = (props) => (
 const Total = (props) => <b><p>total of exercises {props.total}</p></b>
 
 const Course = (props) => {
-  let total = 0
+  const total = props.course.parts.reduce((s, p) => s + p.exercises, 0)
   
-  const sumFunction = (value, index, array) => total += value.exercises
-  props.course.parts.forEach(sumFunction)
   return (
     <div>
       <Header course={props.course.name}/>
