@@ -22,9 +22,12 @@ const Button = ({onClick, text}) => {
 
 const StatisticLine = ({text, total}) => {
   return (
-    <div>
-      {text} {total}
-    </div>
+    <>
+      <tr>
+        <td>{text}</td>
+        <td>{total}</td>
+      </tr>
+    </>
   )
 }
 
@@ -32,12 +35,14 @@ const Statistics = ({texts, good, neutral, bad, total, average, posPct}) => {
   if (total > 0) {
     return (
       <div>
-        <StatisticLine text={texts[0]} total={good}/>
-        <StatisticLine text={texts[1]} total={neutral}/>
-        <StatisticLine text={texts[2]} total={bad}/>
-        <StatisticLine text={"all"} total={total}/>
-        <StatisticLine text={"average"} total={average}/>
-        <StatisticLine text={"positive"} total={posPct}/>
+        <table>
+          <StatisticLine text={texts[0]} total={good}/>
+          <StatisticLine text={texts[1]} total={neutral}/>
+          <StatisticLine text={texts[2]} total={bad}/>
+          <StatisticLine text={"all"} total={total}/>
+          <StatisticLine text={"average"} total={average}/>
+          <StatisticLine text={"positive"} total={posPct}/>
+        </table>
       </div>
     )
   } else {
