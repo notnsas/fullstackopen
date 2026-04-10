@@ -37,6 +37,14 @@ const App = () => {
   const texts = ["good", "neutral", "bad"]
 
   const setToValue = (value, setValue) => () => setValue(value + 1)
+  
+  const total = good + neutral + bad
+
+  const averageRaw = (good - bad) / total
+  const average = isNaN(averageRaw) ? 0 : averageRaw
+  
+  const posPctRaw = (good / total * 100)
+  const posPct = (isNaN(posPctRaw) ? 0 : posPctRaw).toString().concat(" %")
 
   return (
     <div>
@@ -49,6 +57,9 @@ const App = () => {
       <Display text={texts[0]} total={good}/>
       <Display text={texts[1]} total={neutral}/>
       <Display text={texts[2]} total={bad}/>
+      <Display text={"all"} total={total}/>
+      <Display text={"average"} total={average}/>
+      <Display text={"positive"} total={posPct}/>
     </div>
   )
 }
