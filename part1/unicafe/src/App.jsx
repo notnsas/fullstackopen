@@ -20,7 +20,7 @@ const Button = ({onClick, text}) => {
   )
 }
 
-const Display = ({text, total}) => {
+const StatisticLine = ({text, total}) => {
   return (
     <div>
       {text} {total}
@@ -29,17 +29,25 @@ const Display = ({text, total}) => {
 }
 
 const Statistics = ({texts, good, neutral, bad, total, average, posPct}) => {
-  return (
-    <div>
-      <Heading text="statistics"/>
-      <Display text={texts[0]} total={good}/>
-      <Display text={texts[1]} total={neutral}/>
-      <Display text={texts[2]} total={bad}/>
-      <Display text={"all"} total={total}/>
-      <Display text={"average"} total={average}/>
-      <Display text={"positive"} total={posPct}/>
-    </div>
-  )
+  if (total > 0) {
+    return (
+      <div>
+        <StatisticLine text={texts[0]} total={good}/>
+        <StatisticLine text={texts[1]} total={neutral}/>
+        <StatisticLine text={texts[2]} total={bad}/>
+        <StatisticLine text={"all"} total={total}/>
+        <StatisticLine text={"average"} total={average}/>
+        <StatisticLine text={"positive"} total={posPct}/>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <p>No Feedback given</p>
+      </div>
+    )
+  }
+  
 }
 
 const App = () => {
@@ -67,6 +75,8 @@ const App = () => {
       <Button onClick={setToValue(good, setGood)} text={texts[0]}/>
       <Button onClick={setToValue(neutral, setNeutral)} text={texts[1]}/>
       <Button onClick={setToValue(bad, setBad)} text={texts[2]}/>
+
+      <Heading text="statistics"/>
       <Statistics texts={texts} good={good} neutral={neutral} bad={bad} total={total} average={average} posPct={posPct}/>
     </div>
   )
