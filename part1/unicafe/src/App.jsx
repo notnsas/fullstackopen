@@ -28,6 +28,20 @@ const Display = ({text, total}) => {
   )
 }
 
+const Statistics = ({texts, good, neutral, bad, total, average, posPct}) => {
+  return (
+    <div>
+      <Heading text="statistics"/>
+      <Display text={texts[0]} total={good}/>
+      <Display text={texts[1]} total={neutral}/>
+      <Display text={texts[2]} total={bad}/>
+      <Display text={"all"} total={total}/>
+      <Display text={"average"} total={average}/>
+      <Display text={"positive"} total={posPct}/>
+    </div>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -46,20 +60,14 @@ const App = () => {
   const posPctRaw = (good / total * 100)
   const posPct = (isNaN(posPctRaw) ? 0 : posPctRaw).toString().concat(" %")
 
+  // console.log("posPct", posPct)
   return (
     <div>
       <Heading text="give feedback"/>
       <Button onClick={setToValue(good, setGood)} text={texts[0]}/>
       <Button onClick={setToValue(neutral, setNeutral)} text={texts[1]}/>
       <Button onClick={setToValue(bad, setBad)} text={texts[2]}/>
-      <Heading text="statistics"/>
-
-      <Display text={texts[0]} total={good}/>
-      <Display text={texts[1]} total={neutral}/>
-      <Display text={texts[2]} total={bad}/>
-      <Display text={"all"} total={total}/>
-      <Display text={"average"} total={average}/>
-      <Display text={"positive"} total={posPct}/>
+      <Statistics texts={texts} good={good} neutral={neutral} bad={bad} total={total} average={average} posPct={posPct}/>
     </div>
   )
 }
