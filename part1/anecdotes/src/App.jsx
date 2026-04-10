@@ -63,7 +63,7 @@ const App = () => {
   console.log(copyVotes)
   // increment the value in position 2 by one
        
-
+  
   return (
     <div>
       <Body heading={"Anecdote of the day"} body={anecdotes[selected]}/>
