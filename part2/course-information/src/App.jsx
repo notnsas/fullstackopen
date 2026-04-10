@@ -48,7 +48,7 @@ const App = () => {
       ]
     }
   ]
-  console.log("tes");
+  // console.log("tes");
   
   return <Courses courses={courses} />
 }
