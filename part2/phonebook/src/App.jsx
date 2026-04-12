@@ -4,12 +4,15 @@ import personService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filt, setfilt] = useState('')
+  const [notifMessage, setNotifMessage] = useState(null)
+  const [messageType, setMessageType] = useState("notif")
   
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -34,6 +37,16 @@ const App = () => {
     setfilt(event.target.value)
   }
 
+  const showNotifMessage = (message, newMessageType) => {
+    console.log("newMessageType", newMessageType)
+    console.log("message", message)
+    setNotifMessage(message)
+    setMessageType(newMessageType)
+    setTimeout(() => {
+      setNotifMessage(null)
+    }, 2000)
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
     const samePerson = persons.find((n) => n.name === newName)
@@ -48,23 +61,24 @@ const App = () => {
     if (samePerson && samePerson.number !== newNumber && confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
       console.log("samePerson", samePerson);
       console.log("personObject", personObject);
-      
       personService
         .update(samePerson.id, personObject)
         .then((returnedPerson) => {
           setPersons(persons.map((person) => (person.id !== samePerson.id ? person : returnedPerson)))
         })
         .catch((error) => {
-          console.log(error);
-          alert(`the person '${samePerson.name}' was already deleted from server`)
+          console.log("Already deleted in server cant change num")
+          showNotifMessage(`Information of ${samePerson.name} has already been removed from server` , "error")
           setPersons(persons.filter((n) => n.id !== samePerson.id))
+          return
         })
+      // setNotifMessage(`Changed ${newName} number`)
+      showNotifMessage(`Changed ${newName} number`, "notif")
       return
       } else if (samePerson && samePerson.name === newName) {
         alert(`${newName} is already added to phonebook`)
         return
     } 
-    
     
     console.log("Added person")
 
@@ -73,6 +87,11 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     })
+    // setNotifMessage(`Added ${newName}`)
+    // setTimeout(() => {
+    //   setErrorMessage(null)
+    // }, 5000)
+    showNotifMessage(`Added ${newName}`, "notif")
   }
 
   const handleDelete = (id) => {
@@ -93,29 +112,33 @@ const App = () => {
         setPersons(newPersons)
       })
       .catch((error) => {
-        alert(`the person '${person.name}' was already deleted from server`)
+        // alert(`the person '${person.name}' was already deleted from server`)
+        console.log("Deleting...")
+        showNotifMessage(`the person '${person.name}' was already deleted from server` , "error")
         setPersons(newPersons)
       })
   }
 
-  const toggleImportanceOf = (id) => {
-    const note = notes.find((n) => n.id === id)
-    const changedNote = { ...note, important: !note.important }
+  // const toggleImportanceOf = (id) => {
+  //   const note = notes.find((n) => n.id === id)
+  //   const changedNote = { ...note, important: !note.important }
 
-    noteService
-      .update(id, changedNote)
-      .then((returnedNote) => {
-        setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)))
-      })
-      .catch((error) => {
-        alert(`the note '${note.content}' was already deleted from server`)
-        setNotes(notes.filter((n) => n.id !== id))
-      })
-  }
-
+  //   noteService
+  //     .update(id, changedNote)
+  //     .then((returnedNote) => {
+  //       setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)))
+  //     })
+  //     .catch((error) => {
+  //       // alert(`the note '${note.content}' was already deleted from server`)
+  //       showNotifMessage(`the person '${person.name}' was already deleted from server` , "error")
+  //       setNotes(notes.filter((n) => n.id !== id))
+  //     })
+  // }
+  console.log("messageType", messageType)
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notifMessage} messageType={messageType}/>
       <Filter filt={filt} handleFiltChange={handleFiltChange}/>
 
       <h2>add a new</h2>
