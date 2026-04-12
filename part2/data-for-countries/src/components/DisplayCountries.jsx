@@ -9,7 +9,7 @@ const DisplayCountries = ({countries}) => {
     if (countries.length == 1) {
         return (
             <div>
-                <Country country={countries[0]}/>
+                <Country country={countries[0]} isShow={true}/>
             </div>
         )
     }
@@ -18,7 +18,7 @@ const DisplayCountries = ({countries}) => {
         return (
         <div>
             {countries.map((country) =>
-            <div><Country country={country} show={country.show}/></div> 
+            <div key={countries}><Country country={country} isShow={false}/></div> 
             )}
         </div>
         )

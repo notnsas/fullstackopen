@@ -1,11 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import countryService from '../services/countries'
+import Weather from './Weather'
+
 const Country = ({country, isShow}) => {
     // console.log("newCountry in FindCountry", newCountry);
     const [show, setShow] = useState(isShow)
-
+    const [weather, setWeather] = useState('')
+    const lat = country.capitalInfo.latlng[0]
+    const lon = country.capitalInfo.latlng[1]
     const handleShow = () => {
         setShow(!show)
     }
+    const api_key = import.meta.env.VITE_SOME_KEY
+    // let weather = null
+    // const countryObject = {
+    //     lat: lat,
+    //     lon: lng,
+    //     appid: api_key
+    // }
+    useEffect(() => {
+        countryService.getWeather(lat, lon, api_key).then((returnedWeather) => {
+        //   setNotes(notes.concat(returnedNote))
+        //   setNewNote('')
+            setWeather(returnedWeather)
+            console.log("returnedWeather", returnedWeather)
+        })
+      }, [])
+    
+    
     if (show) {
         return (
             <div>
@@ -21,6 +43,8 @@ const Country = ({country, isShow}) => {
                     {/* {country.languages.map(lang => <li>{lang}</li>)} */}
                 </ul>
                 <img src={country.flags["png"]} alt="flag" />
+                
+                <Weather capital={country.capital[0]} weather={weather}/>
                 <button onClick={handleShow}>Unshow</button>
             </div>
         )
