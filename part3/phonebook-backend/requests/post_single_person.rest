@@ -1,0 +1,39 @@
+POST http://localhost:3001/api/persons 
+Content-Type: application/json
+
+{
+    "name": "nara", 
+    "number": "08582913891"
+}
+
+###
+POST http://localhost:3001/api/persons 
+Content-Type: application/json
+
+{
+    "name": "nara", 
+    "number": "08582913891"
+}
+
+###
+POST http://localhost:3001/api/persons 
+Content-Type: application/json
+
+{
+    "name": "rama"
+}
+
+###
+POST http://localhost:3001/api/persons 
+Content-Type: application/json
+
+{
+    "number": "08582913891"
+}
+
+###
+POST http://localhost:3001/api/persons 
+Content-Type: application/json
+
+{
+}
