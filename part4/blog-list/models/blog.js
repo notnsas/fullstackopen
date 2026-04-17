@@ -4,16 +4,14 @@ const dns = require('node:dns/promises')
 mongoose.set('strictQuery', false)
 dns.setServers(['1.1.1.1'])
 
-const noteSchema = new mongoose.Schema({
-  content: {
-    type: String,
-    required: true,
-    minlength: 5
-  },
-  important: Boolean,
+const blogSchema = mongoose.Schema({
+  title: String,
+  author: String,
+  url: String,
+  likes: Number,
 })
 
-noteSchema.set('toJSON', {
+blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -21,4 +19,4 @@ noteSchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('Note', noteSchema)
+module.exports = mongoose.model('Blog', blogSchema)

@@ -1,0 +1,35 @@
+{
+  "name": "part3-playground",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "backend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "fullstackopen\\part3"
+  },
+  "license": "ISC",
+  "author": "notnsa",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf dist && cd ../../part2/part2-notes-frontend && npm run build && cp -r dist ../../part3/part3-playground",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push origin main",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.2.0",
+    "globals": "^17.5.0"
+  }
+}
