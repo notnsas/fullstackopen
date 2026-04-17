@@ -68,8 +68,9 @@ const App = () => {
         })
         .catch((error) => {
           console.log("Already deleted in server cant change num")
-          showNotifMessage(`Information of ${samePerson.name} has already been removed from server` , "error")
-          setPersons(persons.filter((n) => n.id !== samePerson.id))
+          console.log(error.response.data.error)
+          showNotifMessage(error.response.data.error, "error")
+          // setPersons(persons.filter((n) => n.id !== samePerson.id))
           return
         })
       // setNotifMessage(`Changed ${newName} number`)
@@ -82,10 +83,19 @@ const App = () => {
     
     console.log("Added person")
 
-    personService.create(personObject).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson))
-      setNewName('')
-      setNewNumber('')
+    personService
+      .create(personObject)
+      .then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+    })
+    .catch(error => {
+      console.log("Start to logging error inside react for missing");
+      
+      // this is the way to access the error message
+      console.log(error.response.data.error)
+      showNotifMessage(error.response.data.error, "error")
     })
     // setNotifMessage(`Added ${newName}`)
     // setTimeout(() => {
