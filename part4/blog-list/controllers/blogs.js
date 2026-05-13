@@ -55,11 +55,11 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.delete('/:id', async (request, response) => {
   const user = request.user
 
+  // console.log('user', user)
+  console.log('start findid')
   const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
-  // console.log('blog', blog)
-  // console.log('blog id', blog.user._id.toString())
-  // console.log('use4r id', user._id.toString())
 
+  console.log('blog.user._id', blog.user._id)
   if ( blog.user._id.toString() === user._id.toString() ) {
     await Blog.findByIdAndDelete(request.params.id)
     response.status(204).end()
@@ -71,22 +71,30 @@ blogsRouter.delete('/:id', async (request, response) => {
 blogsRouter.put('/:id', async (request, response) => {
   console.log('Start putting')
 
+  const user = request.user
+
   const { title, author, url, likes } = request.body
 
-  const blog = await Blog.findById(request.params.id)
+  const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
 
-  if (!blog) {
-    return response.status(404).end()
-  }
+  if ((title === blog.title && author === blog.author && url === blog.url && likes !== blog.likes) || (blog.user._id.toString() === user._id.toString())) {
+    const blog = await Blog.findById(request.params.id)
 
-  blog.title = title
-  blog.author = author
-  blog.url = url
-  blog.likes = likes
+    if (!blog) {
+      return response.status(404).end()
+    }
 
+    blog.title = title
+    blog.author = author
+    blog.url = url
+    blog.likes = likes
 
-  await blog.save()
-  response.json(blog)
+    await blog.save()
+    response.json(blog)
+
+  } else {
+    return response.status(403).json({ error: 'UserId is not authorized' })
+  } 
 })
 
 module.exports = blogsRouter
