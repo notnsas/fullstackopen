@@ -76,31 +76,18 @@ describe('<Blog />', () => {
     })
   })
 
+  describe('When creator is same', () => {
+    beforeEach(() => {
+      render(
+        <Blog blog={blogByUserOne} updatedBlog={mockHandler} user={userOne}/>
+      )
+    })
 
-  // test('url and likes were shown when clicking button', async () => {
-  //   const user = userEvent.setup()
-
-  //   const elementUrl = screen.getByText('https://reactpatterns.com/', { exact: false })
-  //   const elementLikes = screen.getByText('7', { exact: false })
-
-  //   const viewButton = screen.getByText('view')
-  //   await user.click(viewButton)
-
-  //   expect(elementUrl).toBeVisible()
-  //   expect(elementLikes).toBeVisible()
-  // })
-
-  // test('if the like button is clicked twice, the event handler the component received as props is called twice.', async () => {
-  //   // const mockHandler = vi.fn()
-  //   const user = userEvent.setup()
-
-  //   const viewButton = screen.getByText('view')
-  //   await user.click(viewButton)
-
-  //   const likeButton = screen.getByText('like')
-  //   await user.click(likeButton)
-  //   await user.click(likeButton)
-
-  //   expect(mockHandler.mock.calls).toHaveLength(2)
-  // })
+    test('both likes and delete button are shown', async () => {
+      const buttonRemove = screen.queryByText('remove')
+      const buttonLike = screen.queryByText('like')
+      expect(buttonRemove).toBeVisible()
+      expect(buttonLike).toBeVisible()
+    })
+  })
 })

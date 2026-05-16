@@ -132,6 +132,8 @@ const App = () => {
         )}
       </div>
 
+      {errorMessage && <Notification message={errorMessage} type={'error'}/>}
+
       <Routes>
         <Route path="/login" element={
           <Login onLogin={handleLogin}/>
@@ -157,9 +159,9 @@ const App = () => {
           />
         } />
       </Routes>
-
-      {/* {errorMessage && <Notification message={errorMessage} type={'error'}/>}
-      {!user && loginForm()}
+      
+      
+      {/* {!user && loginForm()}
       {user && (
         <div>
           {createMessage && <Notification message={createMessage} type={'message'}/>}
@@ -175,7 +177,7 @@ const App = () => {
             blogs.map(blog =>
               <Blog key={blog.id} blog={blog} updatedBlog={handleUpdateBlog} updatedBlogs={handleUpdateBlogs} user={user}/>)}
         </div>
-      )} */}
+      )}  */}
     </div>
   )
 }
