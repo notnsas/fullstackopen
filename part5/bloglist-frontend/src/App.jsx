@@ -10,12 +10,19 @@ import loginService from './services/login'
 import {
   Routes, Route, Link, useMatch, useNavigate
 } from 'react-router-dom'
+import { Container, ThemeProvider, AppBar, Toolbar, Button } from '@mui/material'
+import { createTheme } from '@mui/material/styles'
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#00f9dc',
+    },
+  },
+})
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [createMessage, setCreateMessage] = useState(null)
@@ -118,67 +125,83 @@ const App = () => {
     ? blogs.find(note => note.id === match.params.id)
     : null
 
+  const hoverStyle = { }
   return (
-    <div>
-      <div>
-        <Link style={padding} to="/"></Link>
-        <Link style={padding} to="/">blogs</Link>
-        {!user && <Link style={padding} to="/login">login</Link>}
-        {user && (
-          <>
-            <Link style={padding} to="/create">new blog</Link>
-            <button onClick={handleLogout}>Logout</button>
-          </>
-        )}
-      </div>
-
-      {errorMessage && <Notification message={errorMessage} type={'error'}/>}
-
-      <Routes>
-        <Route path="/login" element={
-          <Login onLogin={handleLogin}/>
-        } />
-        <Route path="/create" element={
-          <CreateNew handleCreate={handleCreate}/>
-        } />
-        <Route
-          path="/"
-          element={<BlogList
-            blogs={blogs}
-            updatedBlog={handleUpdateBlog}
-            updatedBlogs={handleUpdateBlogs}
-            user={user}
-          />}
-        />
-        <Route path="/blogs/:id" element={
-          <Blog
-            blog={blog}
-            updatedBlog={handleUpdateBlog}
-            updatedBlogs={handleUpdateBlogs}
-            user={user}
-          />
-        } />
-      </Routes>
-      
-      
-      {/* {!user && loginForm()}
-      {user && (
+    <ThemeProvider theme={theme}>
+      <Container>
         <div>
-          {createMessage && <Notification message={createMessage} type={'message'}/>}
-          <button onClick={handleLogout}>Logout</button>
-          <p>{user.name} logged in</p>
-
-          <Togglable buttonLabel="create new blog">
-            <CreateNew
-              handleCreate={handleCreate}
-            />
-          </Togglable>
-          {
-            blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} updatedBlog={handleUpdateBlog} updatedBlogs={handleUpdateBlogs} user={user}/>)}
+          <AppBar position="static">
+            <Toolbar>
+              <Button color="inherit" component={Link} to="/" sx={hoverStyle}>blogs</Button>
+              {!user && <Button color="inherit" component={Link} to="/login" sx={hoverStyle}>login</Button>}
+              
+              {user && (
+                <>
+                  <Button color="inherit" component={Link} to="/create" sx={hoverStyle}>new blog</Button>
+              <Button color="inherit" onClick={handleLogout} sx={hoverStyle}>Logout</Button>
+                </>
+              )}
+            </Toolbar>
+          </AppBar>
+          <Link style={padding} to="/"></Link>
+          <Link style={padding} to="/">blogs</Link>
+          {!user && <Link style={padding} to="/login">login</Link>}
+          {user && (
+            <>
+              <Link style={padding} to="/create">new blog</Link>
+              <button onClick={handleLogout}>Logout</button>
+            </>
+          )}
         </div>
-      )}  */}
-    </div>
+
+        {errorMessage && <Notification message={errorMessage} type={'error'}/>}
+
+        <Routes>
+          <Route path="/login" element={
+            <Login onLogin={handleLogin}/>
+          } />
+          <Route path="/create" element={
+            <CreateNew handleCreate={handleCreate}/>
+          } />
+          <Route
+            path="/"
+            element={<BlogList
+              blogs={blogs}
+              updatedBlog={handleUpdateBlog}
+              updatedBlogs={handleUpdateBlogs}
+              user={user}
+            />}
+          />
+          <Route path="/blogs/:id" element={
+            <Blog
+              blog={blog}
+              updatedBlog={handleUpdateBlog}
+              updatedBlogs={handleUpdateBlogs}
+              user={user}
+            />
+          } />
+        </Routes>
+
+
+        {/* {!user && loginForm()}
+          {user && (
+            <div>
+              {createMessage && <Notification message={createMessage} type={'message'}/>}
+              <button onClick={handleLogout}>Logout</button>
+              <p>{user.name} logged in</p>
+
+              <Togglable buttonLabel="create new blog">
+                <CreateNew
+                  handleCreate={handleCreate}
+                />
+              </Togglable>
+              {
+                blogs.map(blog =>
+                  <Blog key={blog.id} blog={blog} updatedBlog={handleUpdateBlog} updatedBlogs={handleUpdateBlogs} user={user}/>)}
+            </div>
+          )}  */}
+      </Container>
+    </ThemeProvider>
   )
 }
 

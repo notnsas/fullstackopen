@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { TextField, Button, Card  } from '@mui/material'
 
 const CreateNew = ({
   handleCreate,
@@ -11,45 +12,62 @@ const CreateNew = ({
   const navigate = useNavigate()
 
   return (
-    <div>
-      <h2>create new</h2>
-      <form onSubmit={(e) => {
-        e.preventDefault()
-        handleCreate({ title, author, url })
-        navigate('/')
-      }}>
-        <div>
-          <label>
-            title:
-            <input
-              type="text"
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Card
+        variant="outlined"
+        sx={{
+          paddingX: '100px',
+          paddingY: '50px',
+          width: 'fit',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          gap: 1,
+          borderRadius: '20px'
+        }}
+      >
+        <h2>create new</h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleCreate({ title, author, url })
+            navigate('/')
+          }}
+          style={{
+            padding: 4,
+            // width: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            gap: 14
+          }}
+        >
+          <div>
+            <TextField
+              label="title"
               value={title}
-              onChange={({ target }) => setTitle(target.value)}
+              onChange={event => setTitle(event.target.value)}
             />
-          </label>
-        </div>
-        <div>
-          <label>
-            author:
-            <input
-              type="text"
+          </div>
+          <div>
+            <TextField
+              label="author"
               value={author}
-              onChange={({ target }) => setAuthor(target.value)}
+              onChange={event => setAuthor(event.target.value)}
             />
-          </label>
-        </div>
-        <div>
-          <label>
-            url:
-            <input
-              type="text"
+          </div>
+          <div>
+            <TextField
+              label="url"
               value={url}
-              onChange={({ target }) => setUrl(target.value)}
+              onChange={event => setUrl(event.target.value)}
             />
-          </label>
-        </div>
-        <button type="submit">create</button>
-      </form>
+          </div>
+          <Button type="submit" variant="contained" style={{ marginTop: 10 }}>login</Button>
+        </form>
+      </Card>
     </div>
   )
 }

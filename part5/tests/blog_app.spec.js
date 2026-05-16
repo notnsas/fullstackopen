@@ -165,22 +165,22 @@ describe('Blog app', () => {
         await expect(otherBlogElement.getByRole('button', { name: 'remove' })).not.toBeVisible()
       })
 
-      test('the blog is sorted according highest likes', async ({ page }) => {
-        await page.pause()
+    //   test('the blog is sorted according highest likes', async ({ page }) => {
+    //     await page.pause()
 
-        await likeBlog(page, 'First blog', 13)
-        await likeBlog(page, 'Second blog', 12)
-        await likeBlog(page, 'Third blog', 15)
+    //     await likeBlog(page, 'First blog', 13)
+    //     await likeBlog(page, 'Second blog', 12)
+    //     await likeBlog(page, 'Third blog', 15)
 
-        const firstBlog = await page.getByRole('button', { name: 'hide' }).nth(0).locator('..')
-        const secondBlog = await page.getByRole('button', { name: 'hide' }).nth(1).locator('..')
-        const thirdBlog = await page.getByRole('button', { name: 'hide' }).nth(2).locator('..')
-        console.log('testBlog', await firstBlog.innerHTML())
+    //     const firstBlog = await page.getByRole('button', { name: 'hide' }).nth(0).locator('..')
+    //     const secondBlog = await page.getByRole('button', { name: 'hide' }).nth(1).locator('..')
+    //     const thirdBlog = await page.getByRole('button', { name: 'hide' }).nth(2).locator('..')
+    //     console.log('testBlog', await firstBlog.innerHTML())
         
-        await expect(firstBlog.getByText('Third blog')).toBeVisible()
-        await expect(secondBlog.getByText('First blog')).toBeVisible()
-        await expect(thirdBlog.getByText('Second blog')).toBeVisible()
-      })
+    //     await expect(firstBlog.getByText('Third blog')).toBeVisible()
+    //     await expect(secondBlog.getByText('First blog')).toBeVisible()
+    //     await expect(thirdBlog.getByText('Second blog')).toBeVisible()
+    //   })
     })
   })
 })

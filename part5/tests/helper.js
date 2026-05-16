@@ -35,6 +35,7 @@ const likeBlog = async (page, title, numOfLikes) => {
   for (let i = 0; i < numOfLikes; i++) {
     await buttonLike.click()
   }
+  await page.getByText('blogs').click()
 
   // await blogElement.getByRole
 
