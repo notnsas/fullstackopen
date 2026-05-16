@@ -6,7 +6,7 @@ const User = require('../models/user')
 
 logger.info('blogsRouter is starting..')
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1, id: 1 })
 
   // console.log(blogs)
 
@@ -14,7 +14,7 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.get('/:id', async (request, response) => {
-  const blog = await Blog.findById(request.params.id)
+  const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
   if (blog) {
     response.json(blog)
   } else {
@@ -72,10 +72,15 @@ blogsRouter.put('/:id', async (request, response) => {
   console.log('Start putting')
 
   const user = request.user
-
+  console.log('user', user)
   const { title, author, url, likes } = request.body
 
   const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
+  console.log('user', user)
+
+  if (typeof user === 'undefined') {
+    return response.status(400).json({ error: 'User is not defined' })
+  }
 
   if ((title === blog.title && author === blog.author && url === blog.url && likes !== blog.likes) || (blog.user._id.toString() === user._id.toString())) {
     const blog = await Blog.findById(request.params.id)
@@ -94,7 +99,7 @@ blogsRouter.put('/:id', async (request, response) => {
 
   } else {
     return response.status(403).json({ error: 'UserId is not authorized' })
-  } 
+  }
 })
 
 module.exports = blogsRouter

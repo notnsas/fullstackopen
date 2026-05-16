@@ -20,7 +20,7 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const userExtractor = async (request, response, next) => {
-  if (request.method === 'POST' || request.method === 'DELETE') {
+  if (request.method === 'POST' || request.method === 'DELETE' || request.method === 'PUT') {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
     if (!decodedToken.id) {
