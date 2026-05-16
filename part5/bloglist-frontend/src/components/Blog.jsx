@@ -1,6 +1,7 @@
 import TogglableBlog from './TogglableBlog'
 import blogService from '../services/blogs'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { Card, Typography, Button } from '@mui/material'
 
 const Blog = ({ blog, updatedBlog, updatedBlogs, user }) => {
   console.log('blog di blog', blog)
@@ -58,28 +59,38 @@ const Blog = ({ blog, updatedBlog, updatedBlogs, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
-      {blog.title} {blog.author}
-      {/* <TogglableBlog> */}
-      <div>
-        <a href={formatUrl(blog.url)} target={'_blank'} rel="noopener noreferrer external">
-          {blog.url}
-        </a>
-      </div>
-      <div>
-          likes {blog.likes}
-        {user &&<button
-          onClick={() => {
-            handleLike()
-          }}
-        >
-            like
-        </button>
-        }
-      </div>
-      <div>{blog.user.username}</div>
-      {(typeof user?.id !== 'undefined' && typeof blog?.user?.id !== 'undefined' && user?.id === blog.user.id) && <button onClick={handleDelete}>remove</button>}
-      {/* </TogglableBlog> */}
+    <div>
+      <Card sx={{ padding: 2 , width: '50%', margin: 'auto', marginTop: 5 }}>
+        <Typography variant="h4" component="h2">
+          {blog.title}
+        </Typography>
+        <Typography variant="subtitle1" component="h1">
+          by {blog.author}
+        </Typography>
+        <Typography variant="subtitle1" component="h2">
+          <a href={formatUrl(blog.url)} target={'_blank'} rel="noopener noreferrer external">
+            {blog.url}
+          </a>
+        </Typography>
+        <div>Added by {blog.user.username}</div>
+        {(typeof user?.id !== 'undefined' && typeof blog?.user?.id !== 'undefined' && user?.id === blog.user.id) && <button onClick={handleDelete}>remove</button>}
+        <div style={{ display: 'flex' }}>
+          <div style={{ flexGrow: 1 }}></div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 20 }}>
+            <Typography sx={{ marginBottom: '4px'}}>{blog.likes} Likes</Typography>
+            {user &&<Button
+              onClick={() => {
+                handleLike()
+              }}
+              variant="contained"
+              color="secondary"
+            >
+              like
+            </Button>
+            }
+          </div>
+        </div>
+      </Card>
     </div>
   )
 }

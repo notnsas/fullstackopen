@@ -10,7 +10,7 @@ import loginService from './services/login'
 import {
   Routes, Route, Link, useMatch, useNavigate
 } from 'react-router-dom'
-import { Container, ThemeProvider, AppBar, Toolbar, Button } from '@mui/material'
+import { Container, ThemeProvider, AppBar, Toolbar, Button,Typography, Box } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
 
 const theme = createTheme({
@@ -94,7 +94,7 @@ const App = () => {
     ]
     setBlogs(newBlogs)
 
-    setCreateMessage(`a new blog ${title} by ${author} added`)
+    setCreateMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
     setTimeout(() => {
       setCreateMessage(null)
     }, 5000)
@@ -127,34 +127,29 @@ const App = () => {
 
   const hoverStyle = { }
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <div>
+    <ThemeProvider theme={theme} disableGutters>
+      <Container style={{ width: 'full' }} maxWidth={false}disableGutters>
+        <Box sx={{ flexGrow: 1, marginBottom: 3 }}>
           <AppBar position="static">
             <Toolbar>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                Blogs
+              </Typography>
               <Button color="inherit" component={Link} to="/" sx={hoverStyle}>blogs</Button>
               {!user && <Button color="inherit" component={Link} to="/login" sx={hoverStyle}>login</Button>}
-              
               {user && (
                 <>
                   <Button color="inherit" component={Link} to="/create" sx={hoverStyle}>new blog</Button>
-              <Button color="inherit" onClick={handleLogout} sx={hoverStyle}>Logout</Button>
+                  <Button color="inherit" onClick={handleLogout} sx={hoverStyle}>Logout</Button>
                 </>
               )}
             </Toolbar>
           </AppBar>
-          <Link style={padding} to="/"></Link>
-          <Link style={padding} to="/">blogs</Link>
-          {!user && <Link style={padding} to="/login">login</Link>}
-          {user && (
-            <>
-              <Link style={padding} to="/create">new blog</Link>
-              <button onClick={handleLogout}>Logout</button>
-            </>
-          )}
-        </div>
+        </Box>
+
 
         {errorMessage && <Notification message={errorMessage} type={'error'}/>}
+        {createMessage && <Notification message={createMessage} type={'message'}/>}
 
         <Routes>
           <Route path="/login" element={
